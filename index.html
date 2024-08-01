@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ottoman Empire Currency Calculator</title>
+    <title></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,7 +34,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome To Ottoman Empire Currency</h1>
+        <h1>Welcome To Ottoman Empire Currency Calculator</h1>
         <div class="powerbi-section">
             <iframe title="ExchangeGold240724" src="https://app.powerbi.com/view?r=eyJrIjoiNTJmNjEwMjctOWZiNS00MTdhLWJiZTYtMzY5MGE5ZjkxYjBjIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe> 
         </div>
@@ -47,59 +47,5 @@
         <div id="exchange-rate"></div>
     </div>
 
-    <script>
-        async function fetchGoldPrices() {
-            const apiKey = 'YOUR_ALPHA_VANTAGE_API_KEY';
-            const goldUrl = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=XAU&to_currency=USD&apikey=${apiKey}`;
-            const exchangeUrl = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=ILS&apikey=${apiKey}`;
-            try {
-                const [goldResponse, exchangeResponse] = await Promise.all([fetch(goldUrl), fetch(exchangeUrl)]);
-                if (!goldResponse.ok || !exchangeResponse.ok) {
-                    throw new Error(`HTTP error! Status: ${goldResponse.status} or ${exchangeResponse.status}`);
-                }
-                
-                const goldData = await goldResponse.json();
-                const exchangeData = await exchangeResponse.json();
-                
-                if (!goldData['Realtime Currency Exchange Rate'] || !exchangeData['Realtime Currency Exchange Rate']) {
-                    throw new Error('Unexpected response structure');
-                }
-                
-                const goldPriceUSD = goldData['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-                const usdToNisRate = exchangeData['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-                const goldPriceNIS = goldPriceUSD * usdToNisRate;
-                
-                document.getElementById('gold-price-usd').innerText = `Gold Price: $${parseFloat(goldPriceUSD).toFixed(2)} per ounce`;
-                document.getElementById('gold-price-nis').innerText = `Gold Price: ₪${parseFloat(goldPriceNIS).toFixed(2)} per ounce`;
-            } catch (error) {
-                console.error('Error fetching gold price or exchange rate:', error);
-                document.getElementById('gold-price-usd').innerText = 'Error fetching gold price';
-                document.getElementById('gold-price-nis').innerText = 'Error fetching gold price';
-            }
-        }
-        
-        async function fetchExchangeRate() {
-            const apiKey = 'YOUR_ALPHA_VANTAGE_API_KEY';
-            const url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=GBP&to_currency=ILS&apikey=${apiKey}`;
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                if (!data['Realtime Currency Exchange Rate']) {
-                    throw new Error('Unexpected response structure');
-                }
-                const exchangeRate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-                document.getElementById('exchange-rate').innerText = `1 GBP = ${exchangeRate} ILS`;
-            } catch (error) {
-                console.error('Error fetching exchange rate:', error);
-                document.getElementById('exchange-rate').innerText = 'Error fetching exchange rate';
-            }
-        }
-        
-        fetchGoldPrices();
-        fetchExchangeRate();
-    </script>
 </body>
 </html>
