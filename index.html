@@ -51,7 +51,14 @@
             const goldUrl = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=XAU&to_currency=GBP&apikey=${apiKey}`;
             try {
                 const response = await fetch(goldUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
                 const data = await response.json();
+                console.log('Gold Price Data:', data);
+                if (!data['Realtime Currency Exchange Rate']) {
+                    throw new Error('Unexpected response structure');
+                }
                 const goldPriceGBP = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
                 document.getElementById('gold-price').innerText = `Gold Price: £${parseFloat(goldPriceGBP).toFixed(2)} per ounce`;
             } catch (error) {
@@ -65,7 +72,14 @@
             const url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=GBP&to_currency=ILS&apikey=${apiKey}`;
             try {
                 const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
                 const data = await response.json();
+                console.log('Exchange Rate Data:', data);
+                if (!data['Realtime Currency Exchange Rate']) {
+                    throw new Error('Unexpected response structure');
+                }
                 const exchangeRate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
                 document.getElementById('exchange-rate').innerText = `1 GBP = ${exchangeRate} ILS`;
             } catch (error) {
@@ -79,5 +93,3 @@
     </script>
 </body>
 </html>
-
-
