@@ -38,7 +38,7 @@
             <iframe title="ExchangeGold240724" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNTJmNjEwMjctOWZiNS00MTdhLWJiZTYtMzY5MGE5ZjkxYjBjIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe> 
         </div>
         
-        <h2>Current Gold Price (in GBP)</h2>
+        <h2>Current Gold Price</h2>
         <div id="gold-price"></div>
         
         <h2>Exchange Rate (GBP to ILS)</h2>
@@ -48,19 +48,12 @@
     <script>
         async function fetchGoldPrice() {
             const apiKey = 'LRXFMH7HS7L0K1V1';
-            const goldUrl = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=XAU&to_currency=GBP&apikey=${apiKey}`;
+            const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=GOLD&apikey=${apiKey}`;
             try {
-                const response = await fetch(goldUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                const response = await fetch(url);
                 const data = await response.json();
-                console.log('Gold Price Data:', data);
-                if (!data['Realtime Currency Exchange Rate']) {
-                    throw new Error('Unexpected response structure');
-                }
-                const goldPriceGBP = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-                document.getElementById('gold-price').innerText = `Gold Price: £${parseFloat(goldPriceGBP).toFixed(2)} per ounce`;
+                const goldPrice = data['Global Quote']['05. price'];
+                document.getElementById('gold-price').innerText = `Gold Price: $${goldPrice}`;
             } catch (error) {
                 console.error('Error fetching gold price:', error);
                 document.getElementById('gold-price').innerText = 'Error fetching gold price';
@@ -72,14 +65,7 @@
             const url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=GBP&to_currency=ILS&apikey=${apiKey}`;
             try {
                 const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
                 const data = await response.json();
-                console.log('Exchange Rate Data:', data);
-                if (!data['Realtime Currency Exchange Rate']) {
-                    throw new Error('Unexpected response structure');
-                }
                 const exchangeRate = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
                 document.getElementById('exchange-rate').innerText = `1 GBP = ${exchangeRate} ILS`;
             } catch (error) {
