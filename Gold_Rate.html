@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power BI Report with Gold Price</title>
+</head>
+<body>
+    <h1>Power BI Report</h1>
+    <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNTJmNjEwMjctOWZiNS00MTdhLWJiZTYtMzY5MGE5ZjkxYjBjIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe> 
+	    
+    <h2>Current Gold Price</h2>
+    <div id="gold-price"></div>
+    
+    <script>
+        async function fetchGoldPrice() {
+            const apiKey = 'LRXFMH7HS7L0K1V1';
+            const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=GOLD&apikey=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const goldPrice = data['Global Quote']['05. price'];
+                document.getElementById('gold-price').innerText = `Gold Price: $${goldPrice}`;
+            } catch (error) {
+                console.error('Error fetching gold price:', error);
+                document.getElementById('gold-price').innerText = 'Error fetching gold price';
+            }
+        }
+        
+        fetchGoldPrice();
+    </script>
+</body>
+</html>
