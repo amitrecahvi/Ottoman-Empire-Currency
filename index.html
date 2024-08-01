@@ -10,28 +10,32 @@
             height: 100%;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
         .container {
             width: 100%;
             max-width: 1200px;
             padding: 20px;
             background-color: white;
-            /* Remove the box-shadow to eliminate the grey frame */
             box-shadow: none;
             border-radius: 10px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .powerbi-section iframe {
             width: 80vw;
             height: 80vh;
             border: none;
+        }
+        h1 {
+            text-align: center;
         }
     </style>
 </head>
