@@ -37,14 +37,75 @@
         h1 {
             text-align: center;
         }
+        .gold-price {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome To Ottoman Empire Currency Calculator</h1>
+        
+        <!-- תצוגת שער הזהב -->
+        <div id="gold-price" class="gold-price">Loading gold price...</div>
+        
         <div class="powerbi-section">
-            <iframe title="ExchangeGold_and Index160824" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiYjc1OGRiMzUtZjIzYy00MjYxLTgzODItNDU3NjVmOGQ1NDZkIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
-           </div>
+            <iframe id="powerbi-report" title="ExchangeGold_and Index160824" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiYjc1OGRiMzUtZjIzYy00MjYxLTgzODItNDU3NjVmOGQ1NDZkIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
     </div>
+
+    <script>
+        // פונקציה לשליפת שער ההמרה משקל לדולר
+        function fetchExchangeRate() {
+            const apiKey = 'e3d4f295eab4d313d2d49c5930bdd6b2'; // ה-API Key שלך
+            const apiUrl = `https://www.freeforexapi.com/api/live?pairs=USDILS&api_key=${apiKey}`;
+
+            return fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => data.rates.USDILS.rate)
+                .catch(error => {
+                    console.error('Error fetching exchange rate:', error);
+                    return null;
+                });
+        }
+
+        // פונקציה לשליפת שער הזהב היומי מה-API
+        function fetchGoldPrice() {
+            const apiKey = 'e3d4f295eab4d313d2d49c5930bdd6b2'; // ה-API Key שלך
+            const apiUrl = `https://www.freeforexapi.com/api/live?pairs=XAUUSD&api_key=${apiKey}`;
+
+            return fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => data.rates.XAUUSD.rate)
+                .catch(error => {
+                    console.error('Error fetching gold price:', error);
+                    return null;
+                });
+        }
+
+        // קריאה לפונקציות בעת טעינת הדף
+        Promise.all([fetchExchangeRate(), fetchGoldPrice()])
+            .then(([exchangeRate, goldPriceInUSD]) => {
+                if (exchangeRate && goldPriceInUSD) {
+                    const goldPriceInNIS = goldPriceInUSD * exchangeRate;
+                    document.getElementById('gold-price').innerText = `Gold Price: ${goldPriceInNIS.toFixed(2)} NIS per Ounce`;
+
+                    // הכנס את שער הזהב ל-iframe (לדוח Power BI)
+                    const powerbiReport = document.getElementById('powerbi-report');
+                    const url = new URL(powerbiReport.src);
+                    url.searchParams.set('goldPriceInNIS', goldPriceInNIS.toFixed(2));
+                    powerbiReport.src = url.toString();
+                } else {
+                    document.getElementById('gold-price').innerText = 'Error loading gold price or exchange rate';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('gold-price').innerText = 'Error loading data';
+            });
+    </script>
 </body>
 </html>
+
