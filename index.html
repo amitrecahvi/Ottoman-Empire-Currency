@@ -57,18 +57,15 @@
     </div>
 
     <script>
+        const apiKey = 'e3d4f295eab4d313d2d49c5930bdd6b2';
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const exchangeRateApiUrl = `https://www.freeforexapi.com/api/live?pairs=USDILS&api_key=${apiKey}`;
+        const goldPriceApiUrl = `https://www.freeforexapi.com/api/live?pairs=XAUUSD&api_key=${apiKey}`;
+
         // פונקציה לשליפת שער ההמרה משקל לדולר
         function fetchExchangeRate() {
-            const apiKey = 'e3d4f295eab4d313d2d49c5930bdd6b2'; // ה-API Key שלך
-            const apiUrl = `https://www.freeforexapi.com/api/live?pairs=USDILS&api_key=${apiKey}`;
-
-            return fetch(apiUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
+            return fetch(proxyUrl + exchangeRateApiUrl)
+                .then(response => response.json())
                 .then(data => {
                     console.log('Exchange rate data:', data);
                     if (data && data.rates && data.rates.USDILS) {
@@ -85,16 +82,8 @@
 
         // פונקציה לשליפת שער הזהב היומי מה-API
         function fetchGoldPrice() {
-            const apiKey = 'e3d4f295eab4d313d2d49c5930bdd6b2'; // ה-API Key שלך
-            const apiUrl = `https://www.freeforexapi.com/api/live?pairs=XAUUSD&api_key=${apiKey}`;
-
-            return fetch(apiUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
+            return fetch(proxyUrl + goldPriceApiUrl)
+                .then(response => response.json())
                 .then(data => {
                     console.log('Gold price data:', data);
                     if (data && data.rates && data.rates.XAUUSD) {
