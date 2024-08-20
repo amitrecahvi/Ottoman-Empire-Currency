@@ -8,34 +8,38 @@
         html, body {
             background-color: white;
             height: 100%;
+            width: 100%;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        body {
             font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevent scrolling */
         }
+
         .container {
             width: 100%;
-            max-width: 1200px;
+            height: 100%;
             padding: 20px;
             background-color: white;
-            box-shadow: none;
-            border-radius: 10px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
+            text-align: center;
         }
+
         .powerbi-section iframe {
-            width: 80vw;
-            height: 80vh;
+            width: 100%;
+            height: 90%; /* Adjust this value as necessary */
             border: none;
         }
+
         h1 {
-            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
         }
     </style>
 </head>
@@ -43,8 +47,8 @@
     <div class="container">
         <h1>Welcome To Ottoman Empire Currency Calculator</h1>
         <div class="powerbi-section">
-		<iframe title="ExchangeGold_and IndexTESTCLEAN" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMWI0NzYwZjctODVmNy00MDRhLWFhMGEtZTY5NmMzOGE3OGZmIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
-           </div>
+            <iframe title="ExchangeGold_and IndexTESTCLEAN" src="https://app.powerbi.com/view?r=eyJrIjoiMWI0NzYwZjctODVmNy00MDRhLWFhMGEtZTY5NmMzOGE3OGZmIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
     </div>
 </body>
 </html>
