@@ -6,46 +6,48 @@
     <title>Ottoman Empire Currency Calculator</title>
     <style>
         html, body {
+            background-color: white;
             height: 100%;
-            width: 100%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
+        body {
+            font-family: Arial, sans-serif;
+        }
         .container {
             width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: none;
+            border-radius: 10px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
         }
-
+        .powerbi-section iframe {
+            width: 80vw;
+            height: 80vh;
+            border: none;
+        }
         h1 {
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.5vw; /* Responsive font size based on viewport width */
         }
-
-        .powerbi-section {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .gold-price-container {
+            text-align: center;
+            margin-top: 20px;
         }
-
-        .powerbi-section iframe {
-            width: 90%;
-            height: 80vh; /* Adjust the height according to your preference */
-            border: none;
+        .gold-price-container h2 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        .gold-price {
+            font-size: 1.5em;
+            color: #333;
         }
     </style>
 </head>
@@ -53,8 +55,30 @@
     <div class="container">
         <h1>Welcome To Ottoman Empire Currency Calculator</h1>
         <div class="powerbi-section">
-            <iframe title="ExchangeGold_and IndexTESTCLEAN" src="https://app.powerbi.com/view?r=eyJrIjoiMWI0NzYwZjctODVmNy00MDRhLWFhMGEtZTY5NmMzOGE3OGZmIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" allowFullScreen="true"></iframe>
+            <iframe title="ExchangeGold_and IndexTESTCLEAN" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMWI0NzYwZjctODVmNy00MDRhLWFhMGEtZTY5NmMzOGE3OGZmIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+        
+        <!-- Gold Price Section -->
+        <div class="gold-price-container">
+            <h2>Current Gold Price (XAU/USD)</h2>
+            <div class="gold-price" id="goldPrice">Loading...</div>
         </div>
     </div>
+
+    <script>
+        const apiKey = 'v4epwog5bS0oevKNVkgG3d7TyHLFTtbg';
+        const apiUrl = `https://api.polygon.io/v1/last_quote/currencies/XAUUSD?apiKey=${apiKey}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const goldPrice = data.last.ask;  // The 'ask' price is typically used for the current selling price
+                document.getElementById('goldPrice').innerText = `\$${goldPrice.toFixed(2)} per Ounce`;
+            })
+            .catch(error => {
+                console.error('Error fetching gold price:', error);
+                document.getElementById('goldPrice').innerText = 'Error loading gold price';
+            });
+    </script>
 </body>
 </html>
