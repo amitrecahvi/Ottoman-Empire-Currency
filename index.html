@@ -37,53 +37,14 @@
         h1 {
             text-align: center;
         }
-        .gold-price-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .gold-price-container h2 {
-            margin-bottom: 10px;
-            font-size: 1.5em;
-        }
-        .gold-price {
-            font-size: 1.5em;
-            color: #333;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome To Ottoman Empire Currency Calculator</h1>
         <div class="powerbi-section">
-            <iframe title="ExchangeGold_and IndexTESTCLEAN" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMWI0NzYwZjctODVmNy00MDRhLWFhMGEtZTY5NmMzOGE3OGZmIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
-        </div>
-        
-        <!-- Gold Price Section -->
-        <div class="gold-price-container">
-            <h2>Current Gold Price (XAU/USD)</h2>
-            <div class="gold-price" id="goldPrice">Loading...</div>
-        </div>
+		    <iframe title="ExchangeGold_and IndexTESTCLEAN" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMWI0NzYwZjctODVmNy00MDRhLWFhMGEtZTY5NmMzOGE3OGZmIiwidCI6IjE4MGQ5MzBmLTUzYTAtNDk5OC04MzU3LWZlMTk0ODNiZDliZSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
+            </div>
     </div>
-
-    <script>
-        const apiKey = 'gb_mNvp7GlrVym3Fy7Nfevz1MTdQqqDP';  // Use your API key here
-        const apiUrl = `https://api.polygon.io/v1/last_quote/currencies/XAUUSD?apiKey=${apiKey}`;
-
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`  // Adding the API key as a Bearer token
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const goldPrice = data.last.ask;  // Assuming 'ask' price is desired
-            document.getElementById('goldPrice').innerText = `\$${goldPrice.toFixed(2)} per Ounce`;
-        })
-        .catch(error => {
-            console.error('Error fetching gold price:', error);
-            document.getElementById('goldPrice').innerText = 'Error loading gold price';
-        });
-    </script>
 </body>
 </html>
