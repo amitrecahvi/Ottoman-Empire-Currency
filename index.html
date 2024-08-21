@@ -66,19 +66,24 @@
     </div>
 
     <script>
-        const apiKey = 'v4epwog5bS0oevKNVkgG3d7TyHLFTtbg';
+        const apiKey = 'gb_mNvp7GlrVym3Fy7Nfevz1MTdQqqDP';  // Use your API key here
         const apiUrl = `https://api.polygon.io/v1/last_quote/currencies/XAUUSD?apiKey=${apiKey}`;
 
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const goldPrice = data.last.ask;  // The 'ask' price is typically used for the current selling price
-                document.getElementById('goldPrice').innerText = `\$${goldPrice.toFixed(2)} per Ounce`;
-            })
-            .catch(error => {
-                console.error('Error fetching gold price:', error);
-                document.getElementById('goldPrice').innerText = 'Error loading gold price';
-            });
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${apiKey}`  // Adding the API key as a Bearer token
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const goldPrice = data.last.ask;  // Assuming 'ask' price is desired
+            document.getElementById('goldPrice').innerText = `\$${goldPrice.toFixed(2)} per Ounce`;
+        })
+        .catch(error => {
+            console.error('Error fetching gold price:', error);
+            document.getElementById('goldPrice').innerText = 'Error loading gold price';
+        });
     </script>
 </body>
 </html>
